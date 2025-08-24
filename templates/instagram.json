@@ -1,0 +1,78 @@
+{
+  "domain": "instagram.com",
+  "name": "Instagram",
+  "version": "1.0.0",
+  "selectors": {
+    "followers": "a[href*='/followers/'] span[title]",
+    "following": "a[href*='/following/'] span[title]",
+    "posts": "div:has(> span:contains('posts')) span",
+    "username": "h2.x1lliihq",
+    "bio": "div._aa_c span",
+    "verifiedBadge": "svg[aria-label='Verified']",
+    "profilePicture": "img[alt*='profile picture']",
+    "isPrivate": "h2:has(+ span:contains('This Account is Private'))"
+  },
+  "extractors": {
+    "followersGreaterThan": "(params) => { const count = parseInt(followers.replace(/[,k]/gi, '').replace('K', '000').replace('M', '000000')); return count > params.count; }",
+    "isInfluencer": "() => { const count = parseInt(followers.replace(/[,k]/gi, '').replace('K', '000').replace('M', '000000')); return count > 10000; }",
+    "hasVerifiedBadge": "() => verifiedBadge !== null && verifiedBadge !== ''",
+    "engagementRate": "(params) => { const followerCount = parseInt(followers.replace(/[,k]/gi, '').replace('K', '000').replace('M', '000000')); const postCount = parseInt(posts.replace(/[,]/g, '')); if (postCount === 0) return false; return (followerCount / postCount) > params.minRate; }",
+    "isBusinessAccount": "() => bio.includes('Business') || bio.includes('Contact')",
+    "followRatio": "() => { const followerCount = parseInt(followers.replace(/[,k]/gi, '').replace('K', '000').replace('M', '000000')); const followingCount = parseInt(following.replace(/[,k]/gi, '').replace('K', '000').replace('M', '000000')); return followerCount / (followingCount || 1); }",
+    "isPublicProfile": "() => !isPrivate || isPrivate === ''"
+  },
+  "validation": {
+    "requiredFields": ["followers", "username"],
+    "maxDataSize": 5000,
+    "allowedDomains": ["instagram.com", "www.instagram.com"]
+  },
+  "circuitConfig": {
+    "dataType": "numeric",
+    "claimType": "comparison",
+    "maxDataLength": 48,
+    "supportedClaims": [
+      {
+        "name": "followersGreaterThan",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves follower count is greater than specified number"
+      },
+      {
+        "name": "isInfluencer",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account has influencer status (>10k followers)"
+      },
+      {
+        "name": "hasVerifiedBadge",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account has verified badge"
+      },
+      {
+        "name": "engagementRate",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves engagement rate meets minimum threshold"
+      },
+      {
+        "name": "isBusinessAccount",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account is marked as business account"
+      },
+      {
+        "name": "followRatio",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves follower-to-following ratio"
+      },
+      {
+        "name": "isPublicProfile",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves profile is public"
+      }
+    ]
+  }
+}

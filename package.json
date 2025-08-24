@@ -1,0 +1,103 @@
+{
+  "name": "@zephis/core",
+  "version": "0.1.0",
+  "description": "ZEPHIS is an open-source zkTLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "npm run build:circuits && tsc",
+    "build:circuits": "npm run circuits:compile && npm run circuits:setup",
+    "circuits:compile": "node scripts/compile-circuits.js",
+    "circuits:setup": "node scripts/setup-circuits.js",
+    "circuits:test": "node scripts/test-circuits.js",
+    "circuits:clean": "rm -rf src/circuits/build src/circuits/*.wasm src/circuits/*.zkey src/circuits/verification_key.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "zkTLS",
+    "zero-knowledge",
+    "proof",
+    "TLS",
+    "cryptography",
+    "blockchain"
+  ],
+  "author": "ZEPHIS Protocol",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephis-org/zephis-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zephis-org/zephis-core/issues"
+  },
+  "homepage": "https://github.com/zephis-org/zephis-core#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "dependencies": {
+    "@types/cheerio": "^0.22.35",
+    "ajv": "^8.17.1",
+    "cheerio": "^1.1.2",
+    "circom_runtime": "^0.1.25",
+    "circomlib": "^2.0.5",
+    "cors": "^2.8.5",
+    "dockerode": "^4.0.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "helmet": "^8.0.0",
+    "node-forge": "^1.3.1",
+    "p-queue": "^8.1.0",
+    "puppeteer": "^23.11.0",
+    "snarkjs": "^0.7.5",
+    "uuid": "^11.0.5",
+    "viem": "^2.21.1",
+    "winston": "^3.17.0",
+    "ws": "^8.18.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dockerode": "^3.3.32",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/node-forge": "^1.3.14",
+    "@types/supertest": "^6.0.3",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.5.13",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "circom": "^2.1.8",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "supertest": "^7.1.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

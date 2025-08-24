@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ZEPHIS Template Schema",
+  "description": "Schema for defining ZEPHIS data extraction templates",
+  "type": "object",
+  "required": ["domain", "name", "selectors", "extractors"],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "The domain this template applies to",
+      "minLength": 3,
+      "examples": ["chase.com", "instagram.com", "paypal.com"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name for the template",
+      "minLength": 1,
+      "examples": ["Chase Bank", "Instagram", "PayPal"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Template version following semantic versioning",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0"
+    },
+    "selectors": {
+      "type": "object",
+      "description": "CSS selectors for extracting data from the page",
+      "additionalProperties": {
+        "type": "string",
+        "description": "CSS selector string"
+      },
+      "minProperties": 1
+    },
+    "extractors": {
+      "type": "object",
+      "description": "JavaScript functions for processing extracted data",
+      "additionalProperties": {
+        "type": "string",
+        "description": "JavaScript function as string"
+      },
+      "minProperties": 1
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation rules for the template",
+      "properties": {
+        "requiredFields": {
+          "type": "array",
+          "description": "Fields that must be present in extracted data",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "maxDataSize": {
+          "type": "number",
+          "description": "Maximum size of extracted data in bytes",
+          "minimum": 100,
+          "maximum": 1000000
+        },
+        "allowedDomains": {
+          "type": "array",
+          "description": "List of domains where this template can be used",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "uniqueItems": true
+        },
+        "timeout": {
+          "type": "number",
+          "description": "Maximum time in milliseconds to wait for selectors",
+          "minimum": 1000,
+          "maximum": 60000,
+          "default": 30000
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the template",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Template author"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the template"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for categorizing the template",
+          "items": {
+            "type": "string"
+          }
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Template creation date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update date"
+        }
+      }
+    }
+  }
+}

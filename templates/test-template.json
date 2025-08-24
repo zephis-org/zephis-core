@@ -1,0 +1,10 @@
+{
+  "domain": "test.com",
+  "name": "Test Template",
+  "selectors": {
+    "field": ".selector"
+  },
+  "extractors": {
+    "test": "() => true"
+  }
+}

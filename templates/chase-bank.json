@@ -1,0 +1,70 @@
+{
+  "domain": "chase.com",
+  "name": "Chase Bank",
+  "version": "1.0.0",
+  "selectors": {
+    "balance": ".account-balance-amount",
+    "accountNumber": ".account-number-last-four",
+    "accountType": ".account-type-label",
+    "accountName": ".account-nickname",
+    "availableBalance": ".available-balance-amount",
+    "pendingTransactions": ".pending-transactions-amount",
+    "lastActivity": ".last-activity-date"
+  },
+  "extractors": {
+    "balanceGreaterThan": "(params) => { const amount = parseFloat(balance.replace(/[$,]/g, '')); return amount > params.amount; }",
+    "hasMinimumBalance": "(params) => { const amount = parseFloat(balance.replace(/[$,]/g, '')); return amount >= params.minimum; }",
+    "isCheckingAccount": "() => accountType.toLowerCase().includes('checking')",
+    "isSavingsAccount": "() => accountType.toLowerCase().includes('savings')",
+    "hasRecentActivity": "() => { const lastDate = new Date(lastActivity); const daysSince = (Date.now() - lastDate.getTime()) / (1000 * 60 * 60 * 24); return daysSince < 30; }",
+    "availableBalanceCheck": "(params) => { const amount = parseFloat(availableBalance.replace(/[$,]/g, '')); return amount >= params.required; }"
+  },
+  "validation": {
+    "requiredFields": ["balance", "accountType"],
+    "maxDataSize": 10000,
+    "allowedDomains": ["chase.com", "secure.chase.com", "secure01a.chase.com"]
+  },
+  "circuitConfig": {
+    "dataType": "numeric",
+    "claimType": "comparison",
+    "maxDataLength": 64,
+    "supportedClaims": [
+      {
+        "name": "balanceGreaterThan",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves account balance is greater than specified amount"
+      },
+      {
+        "name": "hasMinimumBalance",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves account has minimum required balance"
+      },
+      {
+        "name": "isCheckingAccount",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account is a checking account"
+      },
+      {
+        "name": "isSavingsAccount",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account is a savings account"
+      },
+      {
+        "name": "hasRecentActivity",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account has activity within last 30 days"
+      },
+      {
+        "name": "availableBalanceCheck",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves available balance meets requirements"
+      }
+    ]
+  }
+}

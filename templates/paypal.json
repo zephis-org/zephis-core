@@ -1,0 +1,71 @@
+{
+  "domain": "paypal.com",
+  "name": "PayPal",
+  "version": "1.0.0",
+  "selectors": {
+    "balance": "[data-testid='balance-amount']",
+    "currency": "[data-testid='balance-currency']",
+    "accountEmail": ".accountEmail",
+    "accountStatus": "[data-testid='account-status']",
+    "lastTransaction": ".transaction-list-item:first-child .transaction-amount",
+    "lastTransactionDate": ".transaction-list-item:first-child .transaction-date",
+    "pendingBalance": "[data-testid='pending-balance']",
+    "primaryCurrency": "[data-testid='primary-currency']"
+  },
+  "extractors": {
+    "balanceGreaterThan": "(params) => { const amount = parseFloat(balance.replace(/[^0-9.-]/g, '')); return amount > params.amount; }",
+    "hasMinimumBalance": "(params) => { const amount = parseFloat(balance.replace(/[^0-9.-]/g, '')); return amount >= params.minimum; }",
+    "isVerifiedAccount": "() => accountStatus && accountStatus.toLowerCase().includes('verified')",
+    "hasRecentTransaction": "() => { if (!lastTransactionDate) return false; const date = new Date(lastTransactionDate); const daysSince = (Date.now() - date.getTime()) / (1000 * 60 * 60 * 24); return daysSince < 7; }",
+    "currencyCheck": "(params) => currency === params.expectedCurrency",
+    "hasPendingFunds": "() => { const pending = parseFloat(pendingBalance.replace(/[^0-9.-]/g, '')); return pending > 0; }"
+  },
+  "validation": {
+    "requiredFields": ["balance", "currency"],
+    "maxDataSize": 8000,
+    "allowedDomains": ["paypal.com", "www.paypal.com"]
+  },
+  "circuitConfig": {
+    "dataType": "numeric",
+    "claimType": "comparison",
+    "maxDataLength": 56,
+    "supportedClaims": [
+      {
+        "name": "balanceGreaterThan",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves PayPal balance is greater than specified amount"
+      },
+      {
+        "name": "hasMinimumBalance",
+        "dataType": "numeric",
+        "claimType": "comparison",
+        "description": "Proves PayPal account has minimum required balance"
+      },
+      {
+        "name": "isVerifiedAccount",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves PayPal account is verified"
+      },
+      {
+        "name": "hasRecentTransaction",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account has transaction within last 7 days"
+      },
+      {
+        "name": "currencyCheck",
+        "dataType": "string",
+        "claimType": "pattern",
+        "description": "Proves account currency matches expected value"
+      },
+      {
+        "name": "hasPendingFunds",
+        "dataType": "boolean",
+        "claimType": "existence",
+        "description": "Proves account has pending funds"
+      }
+    ]
+  }
+}

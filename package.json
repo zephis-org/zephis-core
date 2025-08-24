@@ -1,7 +1,9 @@
 {
   "name": "@zephis/core",
   "version": "0.1.0",
-  "description": "ZEPHIS Protocol - Zero Exposure Proof Handling Isolated Sessions Core Library",
+  "description": "ZEPHIS (Zero Exposure Proof Handling Isolated Sessions) is an open-source ZK-TLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data.",
+  "author": "Berke Kiran",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -21,8 +23,6 @@
     "privacy",
     "cryptography"
   ],
-  "author": "ZEPHIS Protocol",
-  "license": "MIT",
   "dependencies": {
     "bn.js": "^5.2.1",
     "node-forge": "^1.3.1",

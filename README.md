@@ -1,6 +1,8 @@
 ![ZEPHIS Cover](assets/cover.webp)
 
-**ZEPHIS** (Zero Exposure Proof Handling Isolated Sessions) Core is the TypeScript/Node.js library that provides the foundational components for intercepting TLS sessions, generating zero-knowledge proofs, and managing cryptographic commitments. This library handles the off-chain operations that feed into the on-chain verification contracts.
+**ZEPHIS** (Zero Exposure Proof Handling Isolated Sessions) is an open-source ZK-TLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data. Unlike simple API scrapers, ZEPHIS provides mathematical proof at the TLS protocol layer, ensuring cryptographic integrity from TLS handshake to application data.
+
+ZEPHIS Core is the TypeScript library that provides the foundational components for intercepting TLS sessions, generating zero-knowledge proofs, and managing cryptographic commitments. This library handles the off-chain operations that feed into the on-chain verification contracts.
 
 ## 🚀 Quick Start
 

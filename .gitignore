@@ -70,3 +70,8 @@ secrets/
 tmp/
 temp/
 .tmp/
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production

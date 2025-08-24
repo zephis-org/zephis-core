@@ -1,10 +1,13 @@
 import BN from 'bn.js';
 import * as crypto from 'crypto';
+import { config } from '../utils/config';
 
 export class PoseidonHasher {
-  private readonly FIELD_SIZE = new BN('21888242871839275222246405745257275088548364400416034343698204186575808495617');
+  private readonly FIELD_SIZE: BN;
 
-  constructor() {}
+  constructor() {
+    this.FIELD_SIZE = new BN(config.poseidonFieldSize);
+  }
 
   public hash(inputs: (string | number | BN)[]): string {
     if (inputs.length === 0) {
@@ -43,7 +46,7 @@ export class PoseidonHasher {
 
   private bufferToFieldElements(buffer: Buffer): BN[] {
     const elements: BN[] = [];
-    const chunkSize = 31; // 31 bytes per field element to stay under field size
+    const chunkSize = config.fieldElementChunkSize; // bytes per field element to stay under field size
     
     for (let i = 0; i < buffer.length; i += chunkSize) {
       const chunk = buffer.subarray(i, i + chunkSize);

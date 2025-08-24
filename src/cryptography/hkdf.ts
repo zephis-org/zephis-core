@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import { config } from '../utils/config';
 
 export interface HKDFParams {
   ikm: Buffer; // Input Keying Material
@@ -9,9 +10,11 @@ export interface HKDFParams {
 }
 
 export class HKDF {
-  private readonly DEFAULT_HASH = 'sha256';
+  private readonly DEFAULT_HASH: string;
 
-  constructor() {}
+  constructor() {
+    this.DEFAULT_HASH = config.defaultHashAlgorithm;
+  }
 
   public extract(ikm: Buffer, salt?: Buffer, hash: string = this.DEFAULT_HASH): Buffer {
     const actualSalt = salt || Buffer.alloc(crypto.createHash(hash).digest().length);
@@ -86,7 +89,7 @@ export class HKDF {
     return this.derive({
       ikm: preMasterSecret,
       info: seed,
-      length: 48 // Master secret is always 48 bytes in TLS
+      length: config.masterSecretLength // Master secret length from config
     });
   }
 
@@ -103,7 +106,7 @@ export class HKDF {
     return this.derive({
       ikm: masterSecret,
       info: seed,
-      length: 12 // Finished message is 12 bytes
+      length: config.finishedMessageLength // Finished message length from config
     });
   }
 
@@ -111,7 +114,7 @@ export class HKDF {
     sharedSecret: Buffer,
     clientRandom: Buffer,
     serverRandom: Buffer,
-    pskLength: number = 32
+    pskLength: number = config.defaultKeyLength
   ): Buffer {
     const label = Buffer.from('zephis psk', 'utf8');
     const seed = Buffer.concat([label, clientRandom, serverRandom]);
@@ -126,7 +129,7 @@ export class HKDF {
   public deriveCommitmentKey(
     sessionKey: Buffer,
     context: Buffer,
-    keyLength: number = 32
+    keyLength: number = config.defaultKeyLength
   ): Buffer {
     const label = Buffer.from('commitment key', 'utf8');
     const info = Buffer.concat([label, context]);
@@ -142,7 +145,7 @@ export class HKDF {
     masterKey: Buffer,
     proofType: string,
     sessionId: Buffer,
-    keyLength: number = 32
+    keyLength: number = config.defaultKeyLength
   ): Buffer {
     const label = Buffer.from(`${proofType} proof key`, 'utf8');
     const info = Buffer.concat([label, sessionId]);

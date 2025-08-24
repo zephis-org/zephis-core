@@ -1,0 +1,11 @@
+dist/
+node_modules/
+coverage/
+*.config.js
+*.config.mjs
+*.lock
+*.log
+.env
+.env.*
+build/
+out/

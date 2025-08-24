@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ZK Circuit artifacts
+circuits/build/
+circuits/dist/
+*.r1cs
+*.wasm
+*.zkey
+*.wtns
+proof_*
+verification_key_*
+
+# Cryptographic keys (security critical)
+*.key
+*.pem
+*.p12
+*.crt
+private_keys/
+secrets/
+
+# Temporary files
+tmp/
+temp/
+.tmp/

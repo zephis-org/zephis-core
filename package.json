@@ -1,7 +1,9 @@
 {
   "name": "@zephis/core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "ZEPHIS is an open-source zkTLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data.",
+  "author": "Berke Kiran",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -35,8 +37,6 @@
     "cryptography",
     "blockchain"
   ],
-  "author": "ZEPHIS Protocol",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/zephis-org/zephis-core.git"

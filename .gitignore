@@ -153,3 +153,6 @@ test-results/
 # Misc
 *.tgz
 *.tar.gz
+
+# Claude Code config
+CLAUDE.md
